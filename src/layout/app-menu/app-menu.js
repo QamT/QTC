@@ -17,6 +17,10 @@ class AppMenu extends LitElement {
           list-style: none;
         }
 
+        li, span {
+          outline: none;
+        }
+
         .menu {
           display: flex;
           background: #fff;
@@ -43,11 +47,15 @@ class AppMenu extends LitElement {
           margin-top: 2px;
         }
 
-        .menu__child-info:hover {
+        .menu__child-info:hover,
+        .menu__child-info:focus
+         {
           background: var(--lighter);
         }
 
-        .menu__child-info:hover + .menu__submenu {
+        .menu__child-info:hover + .menu__submenu,
+        .menu__child-info:focus + .menu__submenu
+         {
           opacity: 1;
           visibility: visible;
         }
@@ -90,13 +98,20 @@ class AppMenu extends LitElement {
           width: 1rem;
         }
 
-        .menu__submenu > li:hover, .menu__submenu-child > li:hover {
+        .menu__submenu > li:hover,
+        .menu__submenu-child > li:hover,
+        .menu__submenu > li:focus,
+        .menu__submenu-child > li:focus
+         {
           background: var(--lighter);
         }
 
         .menu__submenu:hover,
         .menu__submenu > li:hover > .menu__submenu-child,
-        .menu__submenu-child:hover {
+        .menu__submenu-child:hover,
+        .menu__submenu > li:focus,
+        .menu__submenu > li:focus > .menu__submenu-child,
+        .menu__submenu-child:focus {
           opacity: 1;
           visibility: visible;
         }
@@ -104,10 +119,12 @@ class AppMenu extends LitElement {
     ]
   }
 
-  getName(e) {
-    this.dispatchEvent(new CustomEvent('feature-select', {
-      detail: e.path[0].textContent
-    }));
+  getFeature(e) {
+    if (e.type === 'click' || (e.type === 'keydown' && e.key === 'Enter')) {
+      this.dispatchEvent(new CustomEvent('feature-select', {
+        detail: e.path[0].textContent
+      }));
+    }
   }
 
   render() {
@@ -116,7 +133,7 @@ class AppMenu extends LitElement {
         ${menuData.map(({ name, subMenu, children, icon }) => (
         html`
             <li class='menu__child'>
-              <span class='menu__child-info'>
+              <span class='menu__child-info' tabindex='0'>
                 ${getNode(icon())}
                 <span>${name}</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/><path fill="none" d="M0 0h24v24H0V0z"/></svg>
@@ -124,12 +141,12 @@ class AppMenu extends LitElement {
               <ul class='menu__submenu'>
                 ${subMenu.map((name, i) => (
             html`
-                    <li>
+                    <li tabindex='0'>
                       <span>${name}</span>
                       ${children ? html`
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/><path fill="none" d="M0 0h24v24H0V0z"/></svg>
                         <ul class='menu__submenu-child'>
-                          ${children[i].map(child => html`<li @click=${this.getName}>${child}</li>`)}
+                          ${children[i].map(child => html`<li @click=${this.getFeature} @keydown=${this.getFeature} tabindex='0'>${child}</li>`)}
                         </ul>
                       ` : null}
                     </li>
@@ -148,3 +165,8 @@ customElements.define('app-menu', AppMenu);
 
 
 
+
+
+
+
+// FIXME: dissappearing submenu on focus

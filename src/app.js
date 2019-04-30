@@ -1,7 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
 
 import './layout';
-import styles from './styles/styles.css';
 
 class MyApp extends LitElement {
   static get properties() {
@@ -36,6 +35,8 @@ class MyApp extends LitElement {
     return html`
       <app-header></app-header>
       <app-menu @feature-select='${this.changeFeature}'></app-menu>
+      <app-content></app-content>
+      <app-footer></app-footer>
     `;
   }
 }
@@ -49,7 +50,3 @@ customElements.define('my-app', MyApp);
 * - add unit testing
 * - add responsiveness and accessibility
 */
-
-// convert to typescript
-// add unit testing
-// add accessibility and responsiveness
