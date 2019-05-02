@@ -5,7 +5,10 @@ export const menuData = [
     name: 'Components',
     icon: componentIcon,
     subMenu: ['UI Components', 'Advanced Components'],
-    children: [['Buttons', 'Progress', 'Cards', 'Tool Tip', 'List'], ['Date Picker']]
+    children: [
+      ['Buttons', 'Progress', 'Cards', 'Tool Tip', 'List'],
+      ['Date Picker', 'Carousel']
+    ]
   }
 ]
 

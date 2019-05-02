@@ -1,0 +1,1 @@
+export const buttonInfo = ['Primary', 'Success', 'Warning', 'Danger', 'Info'];
